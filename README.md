@@ -38,8 +38,8 @@ There are no dependencies.
       dsm_agent_activation_port: 4120
       policy_id: 1
       group_id: 1
-	  dsm_proxy: deep.security.manager.proxy
-	  relay_proxy: deep.security.relay.proxy
+      dsm_proxy: deep.security.manager.proxy
+      relay_proxy: deep.security.relay.proxy
       force_reactivation: false
 ```
 
