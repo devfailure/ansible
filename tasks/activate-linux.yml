@@ -82,6 +82,8 @@
 - shell: "{{ item }}"
   with_items:
     - /opt/ds_agent/dsa_control -r
+    - /opt/ds_agent/dsa_control -x dsm_proxy://{{ dsm_proxy }}/
+    - /opt/ds_agent/dsa_control -y relay_proxy://{{ relay_proxy }}/
     - /opt/ds_agent/dsa_control -a {{ dsa_control_argument }}
   when: isActivated != true or force_reactivation != false
   become: true
