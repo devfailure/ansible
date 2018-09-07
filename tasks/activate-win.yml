@@ -7,7 +7,7 @@
 # *********************************************************************
 ---
 # *********************************************************************
-# * Check if DSA installed properly
+# * Check if the DSA is installed properly
 # *********************************************************************
 - debug:
     msg: "Check if DSA installed properly."
@@ -23,7 +23,7 @@
   when: dsaQuery.stat.exists != true
 
 # *********************************************************************
-# * Check if DSA activated already
+# * Check if the DSA is already activated
 # *********************************************************************
 - debug:
     msg: "Check if DSA activated already."
@@ -38,8 +38,28 @@
     isActivated: true
   when: (certHash.stdout | regex_search('(D0:68:DE:48:1B:DC:4D:00:89:07:7F:85:15:20:C5:90:11:EB:56:6A)')) != "D0:68:DE:48:1B:DC:4D:00:89:07:7F:85:15:20:C5:90:11:EB:56:6A"
 
+- set_fact:
+    needsActivation: true
+  when: checkActivated != true or force_reactivation != false
+
 - debug:
-    msg: "isActivated: {{ isActivated }}"
+    msg: "needsActivation: {{ needsActivation }}"
+
+# *********************************************************************
+# * Check if the DSA needs to use a proxy
+# *********************************************************************
+- debug:
+    msg: "Check if the DSA needs to use a proxy."
+
+- set_fact:
+    useProxy: false
+
+- set_fact:
+    useProxy: true
+  when: dsm_proxy != none and relay_proxy != none
+  
+- debug:
+    msg: "useProxy: {{ useProxy }}"
 
 # *********************************************************************
 # * Construct dsa_control arguments
@@ -69,6 +89,16 @@
 - set_fact:
     dsa_control_argument: "{{ dsa_control_argument }} 'groupid:{{ group_id }}'"
   when: group_id != none
+  
+  
+- set_fact:
+    dsm_proxy_argument: "dsm_proxy://{{ dsm_proxy }}:{{ dsm_proxy_port }}/"
+  when: useProxy != none
+
+- set_fact:
+    relay_proxy_argument: "relay_proxy://{{ relay_proxy }}:{{ relay_proxy_port }}/"
+  when: useProxy != none
+
 
 # *********************************************************************
 # * Activate DSA when it's not activated or forecd to reactivate
@@ -82,4 +112,25 @@
   with_items:
     - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -r"
     - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -a {{ dsa_control_argument }}"
-  when: isActivated != true or force_reactivation != false
+  when: needsActivation != false
+  
+  
+# *********************************************************************
+# * Activate DSA when it's not activated and a proxy is used
+# *********************************************************************
+- debug:
+    msg:
+     - "Activate DSA when it's not activated and a proxy is used."
+     - "force_reactivation: {{ force_reactivation }}"
+     - "needsActivation: {{ needsActivation }}"
+     - "useProxy: {{ useProxy }}"
+     
+
+- shell: "{{ item }}"
+  with_items:
+    - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -r"
+    - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -x {{ dsm_proxy_argument }}"
+    - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -y {{ relay_proxy_argument }}"
+    - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -a {{ dsa_control_argument }}"
+  when: needsActivation != false and useProxy != false
+  become: true
