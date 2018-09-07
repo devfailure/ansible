@@ -1,32 +1,30 @@
-# Warning: This is not complete 
-
-## Ansible
+# Ansible
 
 An Ansible playbook for the Deep Security Agent. This playbook allows you to easily deploy the Deep Security Agent as well as take some common operations from the Agent.
 
-### Support
+## Support
 
-This is a community project that is not supported by the Trend Micro Deep Security team. There will be no support for this outside of this repo.
+This is a community project that is supported by the Trend Micro Deep Security team.
 
 Tutorials, feature-specific help, and other information about Deep Security is available from the [Deep Security Help Center](https://help.deepsecurity.trendmicro.com/Welcome.html). 
 
 For Deep Security specific issues, please use the regular Trend Micro support channels. For issues with the code in this repository, please [open an issue here on GitHub](https://github.com/deep-security/ansible/issues).
 
-### Requirements
+## Requirements
 
 All of the tasks in this repository require a working Deep Security infrastructure. The key component is the Trend Micro Deep Security Manager. The Deep Security Agents (which these playbooks help you manage) do the heavy lifting but the Deep Security Manager gives the orders. 
 
 There are no specific technical requirements beyond a standard Ansible deployment.
 
 
-### Dependencies
+## Dependencies
 
 There are no dependencies.
 
 
-### Usage
+## Usage
 
-##### For deploying Agents to a non-multi-tenant Deep Security Manager
+#### For deploying Agents to a non-multi-tenant Deep Security Manager
 ```yaml
 - hosts: all
   roles:
@@ -38,13 +36,15 @@ There are no dependencies.
       dsm_agent_activation_port: 4120
       policy_id: 1
       group_id: 1
-      dsm_proxy: deep.security.manager.proxy
-      relay_proxy: deep.security.relay.proxy
+	  dsm_proxy: deep.security.manager.proxy
+	  dsm_proxy_port: 4120
+	  relay_proxy: deep.security.relay.proxy
+	  relay_proxy_port: 4122
       force_reactivation: false
 ```
 
 <a id="operations"></a>
-### Operations
+## Operations
 Definition for possible operations to be performed in this role, for required variables please refer to [Variables](#variables).
 
 Operation | Description | Variables
@@ -63,7 +63,7 @@ scan-for-malware | Initiate a manual anti-malware scan | N/A
 update-configuration | Instruct the Deep Security Manager to perform a "Send Policy" operation. | N/A
 
 <a id="variables"></a>
-### Variables
+## Variables
 
 Key | Type | Description | Sample
 ----|------|-------------|--------
@@ -82,7 +82,7 @@ token/tenant_password | String | In a multi-tenant installation (like Deep Secur
 
 
 
-### How to contribute
+## How to contribute
 
 We're always open to PRs from the community. To submit one:
 
