@@ -99,7 +99,6 @@
     relay_proxy_argument: "relay_proxy://{{ relay_proxy }}:{{ relay_proxy_port }}/"
   when: useProxy != none
 
-
 # *********************************************************************
 # * Activate DSA when it's not activated or forecd to reactivate
 # *********************************************************************
@@ -114,7 +113,6 @@
     - "& 'C:\\Program Files\\Trend Micro\\Deep Security Agent\\dsa_control' -a {{ dsa_control_argument }}"
   when: needsActivation != false
   
-  
 # *********************************************************************
 # * Activate DSA when it's not activated and a proxy is used
 # *********************************************************************
@@ -124,7 +122,6 @@
      - "force_reactivation: {{ force_reactivation }}"
      - "needsActivation: {{ needsActivation }}"
      - "useProxy: {{ useProxy }}"
-     
 
 - shell: "{{ item }}"
   with_items:
