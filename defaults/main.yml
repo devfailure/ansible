@@ -45,3 +45,9 @@ group_id:
 
 # Whether to force re-activation even Deep Security Agent has been activated
 force_reactivation: false
+
+# Whether to use a proxy for the DSM and Relay
+dsm_proxy:
+dsm_proxy_port:
+relay_proxy: 4120
+relay_proxy_port: 4122
