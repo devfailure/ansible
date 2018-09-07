@@ -4,7 +4,7 @@ An Ansible playbook for the Deep Security Agent. This playbook allows you to eas
 
 ## Support
 
-This is a community project that is supported by the Trend Micro Deep Security team.
+This is a community fork that is not supported by the Trend Micro Deep Security team.
 
 Tutorials, feature-specific help, and other information about Deep Security is available from the [Deep Security Help Center](https://help.deepsecurity.trendmicro.com/Welcome.html). 
 
@@ -36,10 +36,10 @@ There are no dependencies.
       dsm_agent_activation_port: 4120
       policy_id: 1
       group_id: 1
-	  dsm_proxy: deep.security.manager.proxy
-	  dsm_proxy_port: 4120
-	  relay_proxy: deep.security.relay.proxy
-	  relay_proxy_port: 4122
+      dsm_proxy: deep.security.manager.proxy
+      dsm_proxy_port: 4120
+      relay_proxy: deep.security.relay.proxy
+      relay_proxy_port: 4122
       force_reactivation: false
 ```
 
